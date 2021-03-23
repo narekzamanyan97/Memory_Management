@@ -1,15 +1,3 @@
-/***************************************************************
-*file: Memory_Map.java
-*authors: Narek Zamanyan, Jonathan Dunsmore
-*class: CS 4310 – Operating Systems
-*assignment: program 3
-*date last modified: 05/11/2020
-*
-*purpose: This class implements the underlying structure of the memory, with all
-  of its policies and algorithms
-*
-****************************************************************/
-
 import java.util.ArrayList;
 
 public class Memory_Map {
@@ -52,7 +40,7 @@ public class Memory_Map {
 
   //Memory_Map constructor
   public Memory_Map(int memory_size, int policy, int algorithm_or_page_size){
-    //initially, there is only one partition in the memory, which is a holef
+    //initially, there is only one partition in the memory, which is a hole
     this.number_of_partitions = 1;
 
     this.policy = policy;
@@ -210,8 +198,6 @@ public class Memory_Map {
     //the index to add the new process, initially set to invalid index
     int index_to_move = -1;
 
-    // System.out.println("algorithm = " + algorithm);
-
     if(algorithm == FIRST_FIT) {
       //loop through all the partition owners to find HOLE's
       for(int i = 0; i < number_of_partitions; i++) {
@@ -267,8 +253,7 @@ public class Memory_Map {
                   this.partition_pointer.get(2*i) + 1;
           if(process_size <= original_hole_size) {
               size_difference = original_hole_size - process_size;
-              //System.out.println("min_size_difference = " + min_size_difference);
-              //System.out.println("size_difference = " + size_difference);
+ 
               if(min_size_difference > size_difference) {
 
                 min_size_difference = size_difference;
@@ -278,7 +263,6 @@ public class Memory_Map {
           }
         }
       }
-      //System.out.println("index_to_move = " + index_to_move);
       return index_to_move;
     }
   }
@@ -317,9 +301,6 @@ public class Memory_Map {
                   this.partition_pointer.get(2*i) + 1;
           //check if the page fits in the hole
           if(this.page_size <= original_hole_size) {
-            //System.out.println("remaining_pages = " + remaining_pages);
-
-
             //save the end address of the current hole into a temporary variable,
             // so we can savely overwrite it (shrink it) with the end address of
             // the moving page
@@ -336,7 +317,6 @@ public class Memory_Map {
 
             //update the partition_pag_seg with the page_number being moved in.
             // Then, increment the page_number
-            //System.out.println("part_seg_or_pag = " + this.partition_pag_or_seg_number);
             this.partition_pag_or_seg_number.set(i, page_number++);
 
             //add the start address of the new hole
@@ -345,7 +325,6 @@ public class Memory_Map {
             //Otherwise, there will be no hole, and the page will perfectly fit
             //the hole, without a need to add a smaller hole to the right of the
             //page
-
             if(page_size != original_hole_size) {
 
               //set the start address of the new smaller hole to be 1 + the end address
@@ -370,21 +349,11 @@ public class Memory_Map {
             remaining_pages--;
           }
         }
-
-        // System.out.println("original hole start address = " + this.partition_pointer.get(2*i));
-        // System.out.println("original hole end address = " + original_hole_end_address);
-        // System.out.println("i = " + i);
-        // System.out.println("remaining pages = " + remaining_pages);
-        // System.out.println("number of partitions = " + this.number_of_partitions);
-        // System.out.println();
-        // System.out.print("printing memory");
-        // print_memory_map();
       }
 
       return true;
     }
     else {
-      //System.out.println("Not enough space to add process with id = " + p.get_process_id());
       return false;
     }
   }
@@ -399,8 +368,7 @@ public class Memory_Map {
         total += this.partition_pointer.get(2*i + 1) - this.partition_pointer.get(2*i) + 1;
       }
     }
-    //System.out.println("process total size = " + p.total_process_size);
-    //System.out.println("total free space = " + total);
+
     if(p.total_process_size <= total) {
       return true;
     }
@@ -497,7 +465,6 @@ public class Memory_Map {
       }
       else if(algorithm == WORST_FIT) {
         //initializing a varialbe worst_size to find the worst fit
-        //System.out.println("WORST FIT");
         int size_difference = 0;
         int max_size_difference = -1;
         int index_to_move = -1;
@@ -522,7 +489,6 @@ public class Memory_Map {
 
             //if the current parition is a hole
             if(this.partition_owner.get(i) == HOLE) {
-              //System.out.println("partition " + i + " is a hole");
               //store the current_segment_size into a variable for easy reference
               current_segment_size = p.get_segment_size(current_segment_number);
               hole_size = this.partition_pointer.get(2*i + 1) -
@@ -530,11 +496,8 @@ public class Memory_Map {
 
               //if the hole is able to store a segment.
               if(current_segment_size <= hole_size) {
-                // System.out.println("current_segment " + current_segment_number +
-                //         " has size less than hole_size");
                 //iteration is successful (a hole was found)
                 iteration_failed = false;
-                //System.out.println("current segment size is <= hole size");
                 //update the size difference between the hole and the segment
                 size_difference = hole_size - current_segment_size;
 
@@ -549,7 +512,6 @@ public class Memory_Map {
 
                   //update the index for the worst fit
                   index_to_move = i;
-                  //System.out.println("index to move = " + index_to_move);
                 }
               }//end if current_segment_size <= hole_size
             }//end if .. = HOLE
@@ -576,12 +538,6 @@ public class Memory_Map {
       //this variable will be set to false if at least one partition is found in the
       //entire iteration of the for loop.
       boolean iteration_failed = false;
-
-      // System.out.print("" + p.get_process_id() + "  ");
-      // for(int k = 0; k < p.get_number_of_segments(); k++) {
-      //   System.out.print(" " + p.get_segment_size(k));
-      // }
-      // System.out.println();
 
       //if iteration fails once, there is no reason to continue the search
       while(current_segment_number < p.get_number_of_segments() &&
@@ -734,8 +690,6 @@ public class Memory_Map {
                                 remove_from_memory
     ****************************************************************************
   */
-  //!!! combine all the remove funcions into one
-
   //call this method when the process completes
   public boolean remove_from_memory(int p_id) {
     if(this.policy == VSP) {
@@ -822,7 +776,6 @@ private boolean remove_from_memory_PAG_SEG(int p_id) {
             partition_number--;
             i--;
           }
-
         }
 
         if(partition_number < this.number_of_partitions - 1) {
@@ -855,9 +808,6 @@ private boolean merge_right_hole(int partition_number) {
   int right_adjacent_partition_number = partition_number + 1;
 
   boolean merge_was_successful = false;
-  // System.out.println("*****************");
-  // System.out.println(this.partition_pointer.get(2*partition_number));
-  // System.out.println("*****************");
   //if the right adjacent partition is a hole, then merge with this hole
   if(this.partition_owner.get(right_adjacent_partition_number) == HOLE) {
 
