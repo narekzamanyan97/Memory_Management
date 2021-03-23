@@ -1,15 +1,3 @@
-/***************************************************************
-*file: Memory_Main.java
-*authors: Narek Zamanyan, Jonathan Dunsmore
-*class: CS 4310 – Operating Systems
-*assignment: program 3
-*date last modified: 05/11/2020
-*
-*purpose: This is the main for memory management unit
-*
-****************************************************************/
-
-
 import java.util.Scanner;
 
 public class Memory_Main {
