@@ -22,4 +22,10 @@ The events displayed by the simulator that modify the memory contents and the in
    - Process arrival
    - Process admission to the main memory
    - Process completion
+
+
+Since the memory is limited, there is no guarantee that a process will be admitted to the memory as soon as it arrives; thus it may have to wait until the system can
+  accommodate its memory requirements. The lifetime in memory information for a given process defines how long the process will run ONCE IT HAS BEEN GIVEN SPACE IN MAIN 
+  MEMORY. If a process is submitted to the system at time = 100 with Lifetime in Memory = 2000, but isn’t admitted to the memory until time = 1500, then it will complete 
+  at time = 1500 + Lifetime in Memory = 3500. The memory space for a process will be freed by the memory manager when it completes.
    
