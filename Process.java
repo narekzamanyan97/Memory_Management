@@ -1,15 +1,3 @@
-/***************************************************************
-*file: Process.java
-*authors: Narek Zamanyan, Jonathan Dunsmore
-*class: CS 4310 – Operating Systems
-*assignment: program 3
-*date last modified: 05/11/2020
-*
-*purpose: This class acts as a data structure to easily work with processes
-*
-****************************************************************/
-
-
 import java.util.ArrayList;
 
 public class Process {
