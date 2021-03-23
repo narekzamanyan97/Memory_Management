@@ -1,15 +1,3 @@
-/***************************************************************
-*file: Memory_Management_Unit.java
-*authors: Narek Zamanyan, Jonathan Dunsmore
-*class: CS 4310 – Operating Systems
-*assignment: program 3
-*date last modified: 05/11/2020
-*
-*purpose: This class makes use of the Memory Map class to carry out the simulation
-*
-****************************************************************/
-
-
 import java.util.Queue;
 import java.util.LinkedList;
 import java.io.File;
@@ -53,15 +41,6 @@ public class Memory_Management_Unit {
 
   public File file;
   public Scanner file_reader;
-
-
-  //+ implement a memory map with free memory regions (holes)
-
-  //!!! if the process at the head of imput_queue can't be admitted b/c of being
-  // too large, then try to admit the process next on the line
-
-  //? so if the process is larger than the memory size, it will never be
-  // executed?
 
   public Memory_Management_Unit(int memorySize, String file_name, int policy, int algorithm_or_pag_size) {
     memory_map = new Memory_Map(memorySize, policy, algorithm_or_pag_size);
@@ -123,25 +102,17 @@ public class Memory_Management_Unit {
       processes[i].set_arrival_time(Integer.parseInt(arrival_and_lifetime_string[0]));
       processes[i].set_lifetime(Integer.parseInt(arrival_and_lifetime_string[1]));
 
-      //arrival_time[i] = Integer.parseInt(arrival_and_lifetime_string[0]);
-      //lifetime[i] = Integer.parseInt(arrival_and_lifetime_string[1]);
-
       //READING THE 3RD LINE: NUMBER OF SEGMENTS AND SEGMENT SIZES
 
       temp_str = file_reader.nextLine();
       temp_segments = Arrays.asList(temp_str.split(" "));
-
-      //resetting the total_process_size for the next process
-      //temp_total_process_size = 0;
+      
       for(int j = 1; j < temp_segments.size(); j++) {
           temp_total_process_size += Integer.parseInt(temp_segments.get(j));
           processes[i].add_segment(Integer.parseInt(temp_segments.get(j)));
       }
-
-      //processes[i].set_total_process_size(temp_total_process_size);
-
+      
       //READING THE 4TH LINE: SPACE
-      //System.out.println("we reach the end of the loop");
       if(file_reader.hasNextLine()) {
         file_reader.nextLine();
       }
@@ -179,11 +150,6 @@ public class Memory_Management_Unit {
     ****************************************************************************
   */
   public void simulation() {
-    //!!! First, let the processes arrive, then move the processes
-    // inside the input_queue, then run the algorithm
-    //!!! also, let the processes complete first, then move other waiting
-    // processes to memory
-
     int number_of_arrived_processes = 0;
     int number_of_completed_processes = 0;
     int top_of_queue;
@@ -197,12 +163,6 @@ public class Memory_Management_Unit {
 
     double total_turnaround_time = 0;
     double average_turnaround_time = 0;
-
-
-    /*
-      this counter keeps track of the number of processes checked from the
-      input queue.
-    */
 
     while(number_of_completed_processes < this.number_of_processes) {
       int processes_checked = 0;
@@ -230,7 +190,6 @@ public class Memory_Management_Unit {
           System.out.println(" ]");
 
           //print memory map
-          //System.out.println("    Memory Map:");
           this.memory_map.print_memory_map();
 
           number_of_arrived_processes++;
@@ -354,16 +313,7 @@ public class Memory_Management_Unit {
         }
       }
 
-
-
-
-
-      //reading from file
-      //while(file_reader.hasNextLine()) {
-        //System.out.println(file_reader.nextLine());
-      //}
-
-    clock++;
+      clock++;
 
     }
 
@@ -371,7 +321,4 @@ public class Memory_Management_Unit {
     System.out.printf("Average Turnaround Time: %.2f", average_turnaround_time);
     System.out.println();
   }
-
-  //have helper functions for VSP
-
 }
